@@ -38,10 +38,11 @@ class MessagesController extends Controller
         // $this->validate($request);
         // dd($request->all());
         $user = $request->user();
+        $image = $request->file('image');
         $message = Message::create([
             'user_id' => $user->id,
             'content' => $request->input('message'),
-            'image'   => 'http://lorempixel.com/600/300?1'.mt_rand(0, 1000)
+            'image'   => $image->store('messages', 'public')
         ]);
 
         // dd($message);
@@ -97,4 +98,17 @@ class MessagesController extends Controller
     {
         //
     }
+
+    public function search(Request $request) {
+        
+       
+        $query = $request->input('query');
+
+        $messages = Message::with('user')->where('content', 'LIKE', "%$query%")->get();
+
+        return view('messages.index', [
+            'messages' => $messages,
+        ]);
+    }
+
 }

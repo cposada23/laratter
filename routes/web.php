@@ -15,7 +15,7 @@ Route::get('/', 'PagesController@home');
 
 // Route::resource('/messages','MessagesController');
 
-Route::get('/messages/{message}', 'MessagesController@show');
+
 
 
 Auth::routes();
@@ -25,6 +25,8 @@ Route::post('/auth/facebook/register', 'SocialAuthController@register');
 
 // Esta se puede agrupar
 // Route::post('/messages', 'MessagesController@store')->middleware('auth');
+Route::get('/messages/search', 'MessagesController@search');
+Route::get('/messages/{message}', 'MessagesController@show');
 Route::group(['middleware'=>'auth'], function(){
   Route::post('/{username}/dms', 'UsersController@sendPrivateMessage');
   Route::post('{username}/follow', 'UsersController@follow');
